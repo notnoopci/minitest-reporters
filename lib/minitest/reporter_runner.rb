@@ -65,10 +65,11 @@ module MiniTest
 
       # MiniTest < 4.1.0 sends #record after all teardown hooks, so explicitly
       # call #after_test here after recording.
-      after_test(suite, test) if Unit::VERSION <= "4.1.0"
+      after_test(suite, test)
     end
 
     def after_test(suite, test)
+      return unless suite && test
       runners = @test_recorder[suite, test.to_sym]
 
       runners.each do |runner|
