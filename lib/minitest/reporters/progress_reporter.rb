@@ -23,7 +23,7 @@ module MiniTest
         @progress.settings.tty.finite.output = lambda { |s| print(s) }
         @progress.settings.tty.finite.template.barchar = "="
         @progress.settings.tty.finite.template.padchar = " "
-        @progress.settings.tty.finite.template.pre = "\e[1000D\e[?25l#{GREEN}"
+        @progress.settings.tty.finite.template.pre = "\e[1000D#{GREEN}"
         @progress.settings.tty.finite.template.post = CLEAR
       end
 
@@ -131,7 +131,7 @@ module MiniTest
 
       def color=(color)
         @color = color
-        @progress.scope.template.pre = "\e[1000D\e[?25l#{@color}"
+        @progress.scope.template.pre = "\e[1000D#{@color}"
       end
     end
   end
