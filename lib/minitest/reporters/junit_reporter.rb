@@ -27,6 +27,8 @@ module MiniTest
         runner.test_results.each do |suite, tests|
           suite_result = analyze_suite(suite, tests)
 
+          base = Dir.pwd + '/'
+
           xml = Builder::XmlMarkup.new(:indent => 2)
           xml.instruct!
           xml.testsuite(:name => suite, :skipped => suite_result[:skip_count], :failures => suite_result[:failure_count],
@@ -34,7 +36,7 @@ module MiniTest
                         :assertions => suite_result[:assertion_count], :time => suite_result[:time]) do
             tests.each do |test, test_runner|
               xml.testcase(:name => test_runner.test.to_s, :classname => suite, :assertions => test_runner.assertions,
-                           :time => test_runner.time) do
+                           :time => test_runner.time, :file => suite.instance_method(test).source_location[0].gsub(base, '')) do
                 xml << xml_message_for(test_runner) if test_runner.result != :pass
               end
             end
